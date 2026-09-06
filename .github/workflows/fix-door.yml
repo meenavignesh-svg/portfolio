@@ -1,0 +1,48 @@
+name: Fix lab entrance
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Patch 3D entrance
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          p=Path('index.html')
+          s=p.read_text()
+          old="scene.add(M(new THREE.BoxGeometry(W,H,0.1),matWall,0,H/2,D/2));"
+          new="""const DOOR_W=1.55, DOOR_H=2.35;\n          scene.add(M(new THREE.BoxGeometry((W-DOOR_W)/2,H,0.1),matWall,-(W+DOOR_W)/4,H/2,D/2));\n          scene.add(M(new THREE.BoxGeometry((W-DOOR_W)/2,H,0.1),matWall,(W+DOOR_W)/4,H/2,D/2));\n          scene.add(M(new THREE.BoxGeometry(DOOR_W,H-DOOR_H,0.1),matWall,0,DOOR_H+(H-DOOR_H)/2,D/2));"""
+          if old in s:
+              s=s.replace(old,new,1)
+          start=s.find('// Real-world institutional lab entrance:')
+          if start<0: raise SystemExit('door block not found')
+          end=s.find('})();',start)
+          if end<0: raise SystemExit('door end not found')
+          end+=4
+          door="""// Real institutional laboratory entrance. The door is on the visible front wall and can be opened before entering.\n          let labDoor=null, doorOpen=false, doorTarget=0;\n          (function makeRealLabDoor(){\n            const g=new THREE.Group(); labDoor=g;\n            const frame=new THREE.MeshStandardMaterial({color:0x8b9298,roughness:0.5,metalness:0.8});\n            const leafMat=new THREE.MeshStandardMaterial({color:0xd8dbdd,roughness:0.72,metalness:0.08});\n            const dark=new THREE.MeshStandardMaterial({color:0x25292d,roughness:0.85,metalness:0.25});\n            const glass=new THREE.MeshPhysicalMaterial({color:0x9fc4d1,transparent:true,opacity:0.58,roughness:0.12,metalness:0.05,transmission:0.2,thickness:0.04});\n            const leaf=new THREE.Group();\n            leaf.position.set(-0.67,0,0);\n            leaf.add(M(new THREE.BoxGeometry(1.34,2.28,0.08),leafMat,0,1.14,0));\n            leaf.add(M(new THREE.BoxGeometry(0.78,0.68,0.035),dark,0,1.65,0.065));\n            leaf.add(M(new THREE.BoxGeometry(0.70,0.60,0.025),glass,0,1.65,0.085));\n            leaf.add(M(new THREE.BoxGeometry(1.18,0.08,0.035),frame,0,0.10,0.07));\n            leaf.add(M(new THREE.BoxGeometry(0.32,0.045,0.045),dark,0.42,1.14,0.09));\n            leaf.add(M(new THREE.CylinderGeometry(0.025,0.025,0.13,16),frame,0.55,1.14,0.09));\n            leaf.add(M(new THREE.BoxGeometry(0.34,0.07,0.06),frame,0.18,2.25,0.08));\n            g.add(leaf); g.userData.leaf=leaf;\n            g.add(M(new THREE.BoxGeometry(0.10,2.55,0.14),frame,-0.75,1.275,0));\n            g.add(M(new THREE.BoxGeometry(0.10,2.55,0.14),frame,0.75,1.275,0));\n            g.add(M(new THREE.BoxGeometry(1.50,0.10,0.14),frame,0,2.50,0));\n            const c=document.createElement('canvas'); c.width=640;c.height=150; const ctx=c.getContext('2d');\n            ctx.fillStyle='#f5f2e9';ctx.fillRect(0,0,640,150);ctx.fillStyle='#263238';ctx.font='bold 46px system-ui';ctx.textAlign='center';ctx.fillText('BIOTECHNOLOGY LAB',320,62);ctx.font='25px system-ui';ctx.fillText('AUTHORIZED PERSONNEL',320,105);\n            const tex=new THREE.CanvasTexture(c);tex.colorSpace=THREE.SRGBColorSpace;\n            const sign=new THREE.Mesh(new THREE.PlaneGeometry(1.32,0.31),new THREE.MeshBasicMaterial({map:tex}));sign.position.set(0,2.70,0.08);g.add(sign);\n            g.position.set(0,0,D/2-0.07);scene.add(g);\n          })();"""
+          s=s[:start]+door+s[end:]
+          s=s.replace("camera.position.set(0,1.55,4.2);","camera.position.set(0,1.55,4.75);",1)
+          oldcl="camera.position.z=Math.max(-D/2+0.4,Math.min(D/2-0.4,camera.position.z));"
+          newcl="camera.position.z=Math.max(-D/2+0.4,Math.min(doorOpen?D/2+0.75:D/2+0.55,camera.position.z));"
+          if oldcl in s: s=s.replace(oldcl,newcl,1)
+          marker="const panel=document.getElementById('panel');let panelOpen=false,nearestId=null;"
+          insert="""const panel=document.getElementById('panel');let panelOpen=false,nearestId=null;\n          window.addEventListener('keydown',e=>{if(e.code==='KeyE' && !panelOpen){const nearDoor=Math.abs(camera.position.x)<1.35 && Math.abs(camera.position.z-D/2)<1.0;if(nearDoor){doorOpen=!doorOpen;doorTarget=doorOpen?-Math.PI/2:0;document.getElementById('hint').textContent=doorOpen?'Door open · Walk inside':'Door closed · E to open';}}});"""
+          if marker in s: s=s.replace(marker,insert,1)
+          animate_marker="const dt=Math.min(clock.getDelta(),0.05);const t=clock.elapsedTime;"
+          animate_new="const dt=Math.min(clock.getDelta(),0.05);const t=clock.elapsedTime;if(labDoor){const leaf=labDoor.userData.leaf;if(leaf)leaf.rotation.y+=(doorTarget-leaf.rotation.y)*Math.min(1,dt*7);}"""
+          if animate_marker in s: s=s.replace(animate_marker,animate_new,1)
+          p.write_text(s)
+          PY
+      - name: Commit patched index
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git diff --cached --quiet || git commit -m "Make lab entrance visible and enterable"
+          git push
