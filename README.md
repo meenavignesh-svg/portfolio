@@ -24,4 +24,6 @@ Personal portfolio website.
 2. Source: **Deploy from a branch**
 3. Branch: `main` / folder `/ (root)` → **Save**
 
+**3D lab entrance:** Walk straight toward the front entrance; it opens automatically and the doorway is physically passable.
+
 Site: `https://meenavignesh-svg.github.io/portfolio`
