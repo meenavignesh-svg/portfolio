@@ -73,7 +73,7 @@ import { PointerLockControls } from 'three/addons/controls/PointerLockControls.j
 const PHOTO='https://avatars.githubusercontent.com/u/251947734?v=4&s=256';
 const content={about:{title:'About · Meena Vignesh M',meta:'B.Tech Biotechnology · 3rd Sem · CGPA 7.4/10',skills:['Sethu Institute of Technology','2025–2029'],body:'Bioorganic Chemistry, Biochemistry, Microbiology, Cell Biology, Analytical Instrumentation. Focus: Bioengineering, Bioinformatics, AI for Biology.',tags:['Bioengineering','Bioinformatics','AI for Biology'],links:[{label:'GitHub',href:'https://github.com/meenavignesh-svg'},{label:'LinkedIn',href:'https://linkedin.com/in/meena-vignesh-m-310664380'}]},skills:{title:'Skills',meta:'Lab · Code · Tools',skills:['Python','Git','VS Code','AI-Assisted Dev','Bioinformatics','Biochemistry','Microbiology','Cell Biology'],body:'Wet-lab and computational workflows together.',tags:['Wet lab','Computation'],links:[{label:'GitHub',href:'https://github.com/meenavignesh-svg'}]},margots:{title:'MARGOTS',meta:'Bioinformatics · Python · AI Agents',skills:[],body:'AI-native genomic workflow platform — pipelines, QC, analysis, reports.',tags:['Python','Bioinformatics','AI'],links:[{label:'Repo',href:'https://github.com/meenavignesh-svg/margots'}]},peg:{title:'PEG Biodegradation',meta:'SIH 2026 · Marge Organics',skills:[],body:'Interactive PEG wastewater treatment demo for Smart India Hackathon.',tags:['SIH 2026','Environment'],links:[{label:'Repo',href:'https://github.com/meenavignesh-svg/PEG-BIODEGRADATION'},{label:'Demo',href:'https://meenavignesh-svg.github.io/PEG-BIODEGRADATION/'}]},aegis:{title:'Aegis Bio-Node',meta:'Bioengineering concept',skills:[],body:'Next-gen bioreactor with organ-mimetic fluid dynamics.',tags:['Bioengineering','Design'],links:[{label:'Repo',href:'https://github.com/meenavignesh-svg/AEGIS-BIO-NODE'}]},rosalind:{title:'Rosalind Suite',meta:'Algorithms · Learning',skills:[],body:'Rosalind bioinformatics problem solutions.',tags:['Bioinformatics','Python'],links:[{label:'Repo',href:'https://github.com/meenavignesh-svg/rosalind-complete-suite'}]},codealpha:{title:'CodeAlpha Biotech',meta:'Internship',skills:[],body:'CodeAlpha Biotechnology Internship work.',tags:['Internship'],links:[{label:'Repo',href:'https://github.com/meenavignesh-svg/CodeAlpha-Biotech-Internship'}]},sih:{title:'SIH Vision AI',meta:'AI · Computer Vision',skills:[],body:'Image understanding AI for SIH.',tags:['AI','Vision'],links:[{label:'Repo',href:'https://github.com/meenavignesh-svg/SIH-IMAGE-UNDERSTANDING-AI'}]},experience:{title:'Experience',meta:'Intern · Industry · ASM',skills:[],body:'CodeAlpha intern. SPS Chilling Centre trainee (June 2026). ASM Global Outreach member.',tags:['CodeAlpha','SPS','ASM'],links:[{label:'LinkedIn',href:'https://linkedin.com/in/meena-vignesh-m-310664380'}]},contact:{title:'Contact · Meena Vignesh M',meta:'Open to research internships',skills:[],body:'Tamil Nadu, India. Bioengineering, Bioinformatics, AI for Biology.',tags:['Email','WhatsApp','Phone'],links:[{label:'Email',href:'mailto:meenavignesh6789@gmail.com'},{label:'WhatsApp',href:'https://wa.me/919791361692'},{label:'Call',href:'tel:+919791361692'},{label:'GitHub',href:'https://github.com/meenavignesh-svg'},{label:'LinkedIn',href:'https://linkedin.com/in/meena-vignesh-m-310664380'}]}};
 const scene=new THREE.Scene();scene.background=new THREE.Color(0x101820);scene.fog=new THREE.Fog(0x101820,8,18);
-const camera=new THREE.PerspectiveCamera(72,innerWidth/innerHeight,0.05,30);camera.position.set(0,1.55,4.2);
+const camera=new THREE.PerspectiveCamera(72,innerWidth/innerHeight,0.05,30);camera.position.set(0,1.55,4.75);
 const renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance'});renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,1.75));renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.1;document.body.prepend(renderer.domElement);
 scene.add(new THREE.HemisphereLight(0xd8e8f8,0x2a3545,0.45));
 const sun=new THREE.DirectionalLight(0xfff4e8,0.7);sun.position.set(3,8,4);sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);sun.shadow.camera.near=0.5;sun.shadow.camera.far=20;sun.shadow.camera.left=sun.shadow.camera.bottom=-8;sun.shadow.camera.right=sun.shadow.camera.top=8;scene.add(sun);
@@ -96,39 +96,38 @@ scene.add(M(new THREE.BoxGeometry(W,0.08,D),matWall,0,H,0));
 scene.add(M(new THREE.BoxGeometry(0.1,H,D),matWall,-W/2,H/2,0));
 scene.add(M(new THREE.BoxGeometry(0.1,H,D),matWall,W/2,H/2,0));
 scene.add(M(new THREE.BoxGeometry(W,H,0.1),matWall,0,H/2,-D/2));
-scene.add(M(new THREE.BoxGeometry(W,H,0.1),matWall,0,H/2,D/2));
+const DOOR_W=1.55, DOOR_H=2.35;
+          scene.add(M(new THREE.BoxGeometry((W-DOOR_W)/2,H,0.1),matWall,-(W+DOOR_W)/4,H/2,D/2));
+          scene.add(M(new THREE.BoxGeometry((W-DOOR_W)/2,H,0.1),matWall,(W+DOOR_W)/4,H/2,D/2));
+          scene.add(M(new THREE.BoxGeometry(DOOR_W,H-DOOR_H,0.1),matWall,0,DOOR_H+(H-DOOR_H)/2,D/2));
 
-// Real-world institutional lab entrance: solid framed door with safety vision panel, closer, handle and signage.
-(function makeRealLabDoor(){
-  const g=new THREE.Group();
-  const frame=new THREE.MeshStandardMaterial({color:0x8d949b,roughness:0.55,metalness:0.75});
-  const doorMat=new THREE.MeshStandardMaterial({color:0xd5d8da,roughness:0.72,metalness:0.08});
-  const rubber=new THREE.MeshStandardMaterial({color:0x25282b,roughness:0.9});
-  const glass=new THREE.MeshPhysicalMaterial({color:0x9dbdca,transparent:true,opacity:0.58,roughness:0.18,metalness:0.05,transmission:0.15,thickness:0.04});
-  // Door leaf and practical metal frame
-  g.add(M(new THREE.BoxGeometry(1.35,2.55,0.10),doorMat,0,1.275,0));
-  g.add(M(new THREE.BoxGeometry(1.46,2.72,0.12),frame,0,1.36,0.01));
-  g.add(M(new THREE.BoxGeometry(1.28,2.55,0.13),doorMat,0,1.275,0.08));
-  // Recessed safety-glass vision panel
-  g.add(M(new THREE.BoxGeometry(0.82,0.72,0.035),rubber,0,1.78,0.155));
-  g.add(M(new THREE.BoxGeometry(0.74,0.64,0.025),glass,0,1.78,0.18));
-  // Horizontal mid rail and lower kick plate
-  g.add(M(new THREE.BoxGeometry(1.22,0.055,0.035),frame,0,1.37,0.16));
-  g.add(M(new THREE.BoxGeometry(1.18,0.12,0.035),frame,0,0.09,0.16));
-  // Push bar / lever handle
-  g.add(M(new THREE.BoxGeometry(0.34,0.045,0.045),rubber,0.39,1.18,0.18));
-  g.add(M(new THREE.CylinderGeometry(0.025,0.025,0.13,16),frame,0.54,1.18,0.18));
-  // Door closer at top
-  g.add(M(new THREE.BoxGeometry(0.35,0.07,0.06),frame,0.25,2.53,0.18));
-  g.add(M(new THREE.BoxGeometry(0.32,0.025,0.04),frame,0.42,2.47,0.18));
-  // Hinges
-  [-0.62,0,0.62].forEach(y=>g.add(M(new THREE.BoxGeometry(0.055,0.16,0.045),frame,-0.68,y+1.0,0.18)));
-  // Door sign
-  const c=document.createElement('canvas');c.width=512;c.height=128;const ctx=c.getContext('2d');ctx.fillStyle='#f7f4ea';ctx.fillRect(0,0,512,128);ctx.fillStyle='#263238';ctx.font='bold 40px system-ui,sans-serif';ctx.textAlign='center';ctx.fillText('BIOTECHNOLOGY LAB',256,52);ctx.font='24px system-ui,sans-serif';ctx.fillText('LABORATORY · AUTHORIZED PERSONNEL',256,91);const tex=new THREE.CanvasTexture(c);tex.colorSpace=THREE.SRGBColorSpace;const sign=new THREE.Mesh(new THREE.PlaneGeometry(1.12,0.28),new THREE.MeshBasicMaterial({map:tex}));sign.position.set(0,2.93,0.08);g.add(sign);
-  // Small biohazard-style warning plaque without excessive sci-fi styling
-  const p=document.createElement('canvas');p.width=96;p.height=96;const pc=p.getContext('2d');pc.fillStyle='#f3d45a';pc.fillRect(0,0,96,96);pc.fillStyle='#222';pc.font='bold 62px Arial';pc.textAlign='center';pc.fillText('!',48,68);const pt=new THREE.CanvasTexture(p);const plaque=new THREE.Mesh(new THREE.PlaneGeometry(0.24,0.24),new THREE.MeshBasicMaterial({map:pt}));plaque.position.set(0.48,0.73,0.19);g.add(plaque);
-  g.position.set(0,0,-D/2+0.12);scene.add(g);
-})();
+// Real institutional laboratory entrance. The door is on the visible front wall and can be opened before entering.
+          let labDoor=null, doorOpen=false, doorTarget=0;
+          (function makeRealLabDoor(){
+            const g=new THREE.Group(); labDoor=g;
+            const frame=new THREE.MeshStandardMaterial({color:0x8b9298,roughness:0.5,metalness:0.8});
+            const leafMat=new THREE.MeshStandardMaterial({color:0xd8dbdd,roughness:0.72,metalness:0.08});
+            const dark=new THREE.MeshStandardMaterial({color:0x25292d,roughness:0.85,metalness:0.25});
+            const glass=new THREE.MeshPhysicalMaterial({color:0x9fc4d1,transparent:true,opacity:0.58,roughness:0.12,metalness:0.05,transmission:0.2,thickness:0.04});
+            const leaf=new THREE.Group();
+            leaf.position.set(-0.67,0,0);
+            leaf.add(M(new THREE.BoxGeometry(1.34,2.28,0.08),leafMat,0,1.14,0));
+            leaf.add(M(new THREE.BoxGeometry(0.78,0.68,0.035),dark,0,1.65,0.065));
+            leaf.add(M(new THREE.BoxGeometry(0.70,0.60,0.025),glass,0,1.65,0.085));
+            leaf.add(M(new THREE.BoxGeometry(1.18,0.08,0.035),frame,0,0.10,0.07));
+            leaf.add(M(new THREE.BoxGeometry(0.32,0.045,0.045),dark,0.42,1.14,0.09));
+            leaf.add(M(new THREE.CylinderGeometry(0.025,0.025,0.13,16),frame,0.55,1.14,0.09));
+            leaf.add(M(new THREE.BoxGeometry(0.34,0.07,0.06),frame,0.18,2.25,0.08));
+            g.add(leaf); g.userData.leaf=leaf;
+            g.add(M(new THREE.BoxGeometry(0.10,2.55,0.14),frame,-0.75,1.275,0));
+            g.add(M(new THREE.BoxGeometry(0.10,2.55,0.14),frame,0.75,1.275,0));
+            g.add(M(new THREE.BoxGeometry(1.50,0.10,0.14),frame,0,2.50,0));
+            const c=document.createElement('canvas'); c.width=640;c.height=150; const ctx=c.getContext('2d');
+            ctx.fillStyle='#f5f2e9';ctx.fillRect(0,0,640,150);ctx.fillStyle='#263238';ctx.font='bold 46px system-ui';ctx.textAlign='center';ctx.fillText('BIOTECHNOLOGY LAB',320,62);ctx.font='25px system-ui';ctx.fillText('AUTHORIZED PERSONNEL',320,105);
+            const tex=new THREE.CanvasTexture(c);tex.colorSpace=THREE.SRGBColorSpace;
+            const sign=new THREE.Mesh(new THREE.PlaneGeometry(1.32,0.31),new THREE.MeshBasicMaterial({map:tex}));sign.position.set(0,2.70,0.08);g.add(sign);
+            g.position.set(0,0,D/2-0.07);scene.add(g);
+          })();;
 
 [[-2,-1.5],[2,-1.5],[0,1.5]].forEach(([fx,fz])=>{scene.add(M(new THREE.BoxGeometry(1.8,0.04,0.35),matSteel,fx,H-0.04,fz));scene.add(M(new THREE.BoxGeometry(1.6,0.025,0.22),new THREE.MeshStandardMaterial({color:0xf8fbff,emissive:0xd0e4ff,emissiveIntensity:0.9}),fx,H-0.07,fz));const pl=new THREE.PointLight(0xf0f6ff,0.5,7,2);pl.position.set(fx,H-0.35,fz);scene.add(pl);});
 function bench(x,z,len,rotY=0){const g=new THREE.Group();g.add(M(new THREE.BoxGeometry(len,0.05,0.6),matTop,0,0.85,0));g.add(M(new THREE.BoxGeometry(len-0.05,0.78,0.52),matBench,0,0.39,0));g.position.set(x,0,z);g.rotation.y=rotY;scene.add(g);}
@@ -158,6 +157,7 @@ window.addEventListener('keydown',e=>{keys[e.code]=true;});window.addEventListen
 document.querySelectorAll('.ctrl-btn').forEach(btn=>{const map={w:'KeyW',a:'KeyA',s:'KeyS',d:'KeyD',e:'KeyE'};const code=map[btn.dataset.key];const on=e=>{e.preventDefault();keys[code]=true;};const off=e=>{e.preventDefault();keys[code]=false;};btn.addEventListener('touchstart',on,{passive:false});btn.addEventListener('touchend',off);btn.addEventListener('mousedown',on);btn.addEventListener('mouseup',off);btn.addEventListener('mouseleave',off);});
 renderer.domElement.addEventListener('click',()=>{if(!controls.isLocked&&!panelOpen)controls.lock();});
 const panel=document.getElementById('panel');let panelOpen=false,nearestId=null;
+          window.addEventListener('keydown',e=>{if(e.code==='KeyE' && !panelOpen){const nearDoor=Math.abs(camera.position.x)<1.35 && Math.abs(camera.position.z-D/2)<1.0;if(nearDoor){doorOpen=!doorOpen;doorTarget=doorOpen?-Math.PI/2:0;document.getElementById('hint').textContent=doorOpen?'Door open · Walk inside':'Door closed · E to open';}}});
 function openPanel(id){const c=content[id];if(!c)return;document.getElementById('pTitle').textContent=c.title;document.getElementById('pMeta').textContent=c.meta;document.getElementById('pBody').textContent=c.body;document.getElementById('pSkills').innerHTML=(c.skills||[]).map(s=>`<span class="skill-chip">${s}</span>`).join('');document.getElementById('pTags').innerHTML=(c.tags||[]).map(t=>`<span class="tag">${t}</span>`).join('');document.getElementById('pLinks').innerHTML=(c.links||[]).map(l=>`<a href="${l.href}" target="_blank" rel="noopener">${l.label} →</a>`).join('');panel.classList.add('open');panelOpen=true;if(controls.isLocked)controls.unlock();document.getElementById('hint').textContent='E or × to close';}
 function closePanel(){panel.classList.remove('open');panelOpen=false;document.getElementById('hint').textContent='Walk to blue rings · E';}
 document.getElementById('panelClose').addEventListener('click',closePanel);
@@ -165,7 +165,7 @@ window.addEventListener('keydown',e=>{if(e.code==='KeyE'||e.code==='Enter'){if(p
 const raycaster=new THREE.Raycaster();const pointer=new THREE.Vector2();
 renderer.domElement.addEventListener('pointerdown',e=>{if(panelOpen)return;pointer.x=(e.clientX/innerWidth)*2-1;pointer.y=-(e.clientY/innerHeight)*2+1;raycaster.setFromCamera(pointer,camera);const meshes=[];interactables.forEach(g=>g.traverse(c=>{if(c.isMesh)meshes.push(c);}));const hits=raycaster.intersectObjects(meshes,false);if(hits.length){let o=hits[0].object;while(o&&!o.userData.stationId)o=o.parent;if(o?.userData?.stationId)openPanel(o.userData.stationId);}});
 const clock=new THREE.Clock();
-function animate(){requestAnimationFrame(animate);const dt=Math.min(clock.getDelta(),0.05);const t=clock.elapsedTime;scene.traverse(o=>{if(o.userData.pulse)o.material.opacity=o.userData.baseOpacity+Math.sin(t*2.8)*0.12;});if(controls.isLocked&&!panelOpen){const f=new THREE.Vector3();camera.getWorldDirection(f);f.y=0;f.normalize();const r=new THREE.Vector3().crossVectors(f,new THREE.Vector3(0,1,0)).normalize();let mx=0,mz=0;if(keys['KeyW']||keys['ArrowUp']){mx+=f.x;mz+=f.z;}if(keys['KeyS']||keys['ArrowDown']){mx-=f.x;mz-=f.z;}if(keys['KeyA']||keys['ArrowLeft']){mx-=r.x;mz-=r.z;}if(keys['KeyD']||keys['ArrowRight']){mx+=r.x;mz+=r.z;}const len=Math.hypot(mx,mz)||1;camera.position.x+=(mx/len)*3.5*dt;camera.position.z+=(mz/len)*3.5*dt;camera.position.x=Math.max(-W/2+0.4,Math.min(W/2-0.4,camera.position.x));camera.position.z=Math.max(-D/2+0.4,Math.min(D/2-0.4,camera.position.z));camera.position.y=1.55;}let best=null,bestD=2.2;interactables.forEach(g=>{const d=camera.position.distanceTo(g.position);if(d<bestD){bestD=d;best=g;}});nearestId=best?best.userData.stationId:null;if(!panelOpen)document.getElementById('hint').textContent=best?`Near: ${best.userData.label} · E`:(controls.isLocked?'Walk to blue rings':'Click · WASD · E');renderer.render(scene,camera);}
+function animate(){requestAnimationFrame(animate);const dt=Math.min(clock.getDelta(),0.05);const t=clock.elapsedTime;if(labDoor){const leaf=labDoor.userData.leaf;if(leaf)leaf.rotation.y+=(doorTarget-leaf.rotation.y)*Math.min(1,dt*7);}scene.traverse(o=>{if(o.userData.pulse)o.material.opacity=o.userData.baseOpacity+Math.sin(t*2.8)*0.12;});if(controls.isLocked&&!panelOpen){const f=new THREE.Vector3();camera.getWorldDirection(f);f.y=0;f.normalize();const r=new THREE.Vector3().crossVectors(f,new THREE.Vector3(0,1,0)).normalize();let mx=0,mz=0;if(keys['KeyW']||keys['ArrowUp']){mx+=f.x;mz+=f.z;}if(keys['KeyS']||keys['ArrowDown']){mx-=f.x;mz-=f.z;}if(keys['KeyA']||keys['ArrowLeft']){mx-=r.x;mz-=r.z;}if(keys['KeyD']||keys['ArrowRight']){mx+=r.x;mz+=r.z;}const len=Math.hypot(mx,mz)||1;camera.position.x+=(mx/len)*3.5*dt;camera.position.z+=(mz/len)*3.5*dt;camera.position.x=Math.max(-W/2+0.4,Math.min(W/2-0.4,camera.position.x));camera.position.z=Math.max(-D/2+0.4,Math.min(doorOpen?D/2+0.75:D/2+0.55,camera.position.z));camera.position.y=1.55;}let best=null,bestD=2.2;interactables.forEach(g=>{const d=camera.position.distanceTo(g.position);if(d<bestD){bestD=d;best=g;}});nearestId=best?best.userData.stationId:null;if(!panelOpen)document.getElementById('hint').textContent=best?`Near: ${best.userData.label} · E`:(controls.isLocked?'Walk to blue rings':'Click · WASD · E');renderer.render(scene,camera);}
 window.addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);});
 requestAnimationFrame(()=>{document.getElementById('loading').classList.add('hide');animate();});
 </script>
