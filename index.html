@@ -2,172 +2,273 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-<title>Meena Vignesh M — Biotech Lab</title>
-<meta name="theme-color" content="#0a0e18"/>
-<meta name="description" content="3D biotech lab portfolio of Meena Vignesh M."/>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230ea5e9'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='system-ui' font-weight='700' font-size='14' fill='%23fff'%3EMV%3C/text%3E%3C/svg%3E"/>
-<link rel="preconnect" href="https://unpkg.com" crossorigin/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Meena Vignesh M | B.Tech Biotechnology</title>
+<meta name="description" content="B.Tech Biotechnology student at Sethu Institute of Technology. Bioinformatics, Bioengineering, AI for Biology."/>
+<meta name="theme-color" content="#0a1220"/>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2338bdf8'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='system-ui' font-weight='700' font-size='14' fill='%230a1220'%3EMV%3C/text%3E%3C/svg%3E"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
 <style>
+:root{--bg:#0a1220;--bg2:#0d1829;--card:#111c2e;--border:rgba(56,189,248,.12);--text:#e2e8f0;--muted:#94a3b8;--accent:#38bdf8;--accent2:#0ea5e9;--glow:rgba(56,189,248,.25)}
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{width:100%;height:100%;overflow:hidden;font-family:system-ui,-apple-system,sans-serif;background:#0a0e18;color:#e8eef7}
-canvas{display:block;touch-action:none}
-#ui{position:fixed;inset:0;pointer-events:none;z-index:10}
-.top{position:absolute;top:0;left:0;right:0;padding:.75rem 1rem;display:flex;align-items:center;gap:.75rem;background:linear-gradient(to bottom,rgba(6,10,20,.92),transparent)}
-.top img{width:40px;height:40px;border-radius:10px;object-fit:cover;border:2px solid rgba(94,200,255,.4)}
-.logo{font-weight:700;font-size:.95rem;line-height:1.25}.logo span{color:#5ec8ff;display:block;font-weight:500;font-size:.7rem}
-.hint{position:absolute;bottom:1rem;left:50%;transform:translateX(-50%);background:rgba(8,12,24,.92);border:1px solid rgba(94,200,255,.28);padding:.45rem .9rem;border-radius:999px;font-size:.72rem;color:#9db0c7;white-space:nowrap;max-width:94vw}
-.panel{pointer-events:auto;position:absolute;top:50%;right:.85rem;transform:translateY(-50%) translateX(16px);width:min(340px,calc(100vw - 1rem));max-height:78vh;overflow-y:auto;background:rgba(10,14,28,.96);backdrop-filter:blur(14px);border:1px solid rgba(94,200,255,.22);border-radius:14px;padding:1.2rem;box-shadow:0 16px 40px rgba(0,0,0,.5);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .3s}
-.panel.open{opacity:1;visibility:visible;transform:translateY(-50%) translateX(0)}
-.panel h2{font-size:1.05rem;font-weight:700;margin-bottom:.2rem}.panel .meta{font-size:.68rem;color:#5ec8ff;margin-bottom:.65rem}
-.panel p{font-size:.84rem;color:#a8b8cc;line-height:1.55;margin-bottom:.7rem}
-.panel .tags{display:flex;flex-wrap:wrap;gap:.25rem;margin-bottom:.7rem}
-.panel .tag{font-size:.62rem;font-weight:600;padding:.15rem .4rem;border-radius:5px;background:rgba(94,200,255,.1);color:#8ad4ff}
-.panel a{font-size:.8rem;font-weight:600;color:#5ec8ff;text-decoration:none;margin-right:.55rem}
-.panel-close{position:absolute;top:.6rem;right:.6rem;width:30px;height:30px;border:1px solid rgba(148,163,184,.25);background:transparent;color:#9db0c7;border-radius:8px;cursor:pointer;font-size:1rem}
-.skills-row{display:flex;flex-wrap:wrap;gap:.25rem;margin-bottom:.65rem}.skill-chip{font-size:.62rem;padding:.15rem .45rem;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#c5d4e5}
-.mobile-controls{display:none;position:absolute;bottom:4.2rem;left:0;right:0;justify-content:space-between;padding:0 .8rem;pointer-events:none}
-.joy,.btns{pointer-events:auto;display:flex;gap:.35rem}.ctrl-btn{width:48px;height:48px;border-radius:12px;border:1px solid rgba(94,200,255,.28);background:rgba(10,16,32,.85);color:#e0eaf5;font-size:1rem;display:flex;align-items:center;justify-content:center;user-select:none;touch-action:manipulation}
-.loading{position:fixed;inset:0;z-index:100;background:#0a0e18;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.75rem;transition:opacity .35s,visibility .35s}
-.loading.hide{opacity:0;visibility:hidden;pointer-events:none}
-.loading img{width:72px;height:72px;border-radius:16px;object-fit:cover;border:2px solid rgba(94,200,255,.4)}
-.loading h1{font-size:1.25rem;font-weight:800}.loading h1 span{color:#5ec8ff}
-.loading p{color:#6b7c94;font-size:.8rem}
-.bar{width:140px;height:3px;background:rgba(94,200,255,.15);border-radius:4px;overflow:hidden}
-.bar i{display:block;height:100%;width:30%;background:#5ec8ff;animation:load .9s ease-in-out infinite}
-@keyframes load{0%{transform:translateX(-100%)}100%{transform:translateX(400%)}}
-@media(max-width:768px){.hint{bottom:6.5rem;font-size:.65rem}.mobile-controls{display:flex}.panel{right:.45rem;left:.45rem;width:auto;top:auto;bottom:6.5rem;transform:none;max-height:38vh}.panel.open{transform:none}}
+html{scroll-behavior:smooth}
+body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+.grid-bg{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse 80% 50% at 50% -20%,rgba(14,165,233,.12),transparent),linear-gradient(rgba(56,189,248,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(56,189,248,.03) 1px,transparent 1px);background-size:100% 100%,48px 48px,48px 48px;pointer-events:none}
+.dots{position:fixed;inset:0;z-index:0;background-image:radial-gradient(rgba(56,189,248,.15) 1px,transparent 1px);background-size:64px 64px;opacity:.4;pointer-events:none}
+.wrap{position:relative;z-index:1;max-width:1120px;margin:0 auto;padding:0 1.25rem}
+nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(16px);background:rgba(10,18,32,.85);border-bottom:1px solid var(--border)}
+nav .inner{display:flex;align-items:center;justify-content:space-between;height:64px;max-width:1120px;margin:0 auto;padding:0 1.25rem}
+.brand{display:flex;align-items:center;gap:.7rem;text-decoration:none;color:var(--text)}
+.brand img{width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid rgba(56,189,248,.35)}
+.brand strong{font-size:.9rem;font-weight:700;display:block;line-height:1.2}
+.brand small{font-size:.7rem;color:var(--accent);font-weight:500}
+.nav-links{display:flex;align-items:center;gap:1.4rem}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:.85rem;font-weight:500;transition:color .2s}
+.nav-links a:hover{color:var(--accent)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;padding:.65rem 1.25rem;border-radius:10px;font-size:.875rem;font-weight:600;text-decoration:none;transition:all .2s;cursor:pointer;border:none}
+.btn-primary{background:var(--accent);color:#0a1220}
+.btn-primary:hover{background:#7dd3fc;transform:translateY(-1px);box-shadow:0 8px 24px var(--glow)}
+.btn-outline{background:transparent;color:var(--text);border:1px solid rgba(148,163,184,.3)}
+.btn-outline:hover{border-color:var(--accent);color:var(--accent)}
+.menu-btn{display:none;background:none;border:none;color:var(--text);font-size:1.4rem;cursor:pointer}
+.hero{min-height:calc(100vh - 64px);display:flex;align-items:center;padding:3rem 0 4rem}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:3rem;align-items:center;width:100%}
+.badge{display:inline-flex;align-items:center;gap:.4rem;padding:.3rem .75rem;border-radius:999px;background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.2);font-size:.75rem;color:var(--accent);font-weight:500;margin-bottom:1.25rem}
+.badge::before{content:'';width:7px;height:7px;border-radius:50%;background:#4ade80;box-shadow:0 0 8px #4ade80}
+.hero h1{font-size:clamp(2.4rem,5vw,3.5rem);font-weight:800;line-height:1.1;margin-bottom:.75rem;letter-spacing:-.02em}
+.hero h1 .blue{color:var(--accent)}
+.hero .sub{font-size:1.05rem;color:var(--muted);margin-bottom:1.25rem}
+.hero .sub b{color:var(--accent);font-weight:600}
+.hero p.desc{color:var(--muted);font-size:1rem;max-width:520px;margin-bottom:1.75rem}
+.hero p.desc strong{color:var(--text);font-weight:600}
+.stats{display:flex;gap:1.75rem;margin-bottom:1.75rem;flex-wrap:wrap}
+.stat .n{font-size:1.6rem;font-weight:800;color:var(--text);line-height:1}
+.stat .l{font-size:.7rem;color:var(--muted);margin-top:.25rem;text-transform:uppercase;letter-spacing:.04em}
+.stat-div{width:1px;background:rgba(148,163,184,.2);align-self:stretch}
+.hero-btns{display:flex;gap:.75rem;flex-wrap:wrap}
+.photo-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:1.25rem;box-shadow:0 24px 60px rgba(0,0,0,.35);max-width:340px;margin-left:auto}
+.photo-card img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:14px;display:block;background:#1a2740}
+.photo-card .info{padding:.9rem .15rem 0}
+.photo-card h3{font-size:1.05rem;font-weight:700}
+.photo-card .role{color:var(--accent);font-size:.85rem;font-weight:500;margin:.15rem 0 .7rem}
+.photo-card .meta{font-size:.8rem;color:var(--muted);display:flex;align-items:center;gap:.4rem;margin-bottom:.35rem}
+.photo-card .links{display:flex;gap:.5rem;margin-top:1rem}
+.photo-card .links a{flex:1;text-align:center;padding:.5rem;border-radius:8px;border:1px solid rgba(148,163,184,.2);color:var(--muted);text-decoration:none;font-size:.78rem;font-weight:500;transition:all .2s}
+.photo-card .links a:hover{border-color:var(--accent);color:var(--accent)}
+section{padding:5rem 0}
+.sec-head{text-align:center;margin-bottom:2.5rem}
+.sec-head .tag{font-size:.75rem;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.5rem}
+.sec-head h2{font-size:clamp(1.6rem,3vw,2.1rem);font-weight:800;letter-spacing:-.02em}
+.sec-head p{color:var(--muted);margin-top:.5rem;max-width:520px;margin-left:auto;margin-right:auto}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.5rem;transition:border-color .2s}
+.card:hover{border-color:rgba(56,189,248,.3)}
+.card h3{font-size:1rem;font-weight:700;margin-bottom:.6rem}
+.card p,.card li{color:var(--muted);font-size:.9rem}
+.card ul{list-style:none;padding:0}
+.card li{padding:.25rem 0;padding-left:1rem;position:relative}
+.card li::before{content:'›';position:absolute;left:0;color:var(--accent)}
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:.75rem}
+.skill{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1rem;text-align:center;font-size:.85rem;font-weight:500;color:var(--muted);transition:all .2s}
+.skill:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.25rem}
+.proj{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.5rem;display:flex;flex-direction:column;transition:all .25s}
+.proj:hover{border-color:rgba(56,189,248,.35);transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.25)}
+.proj .ptype{font-size:.7rem;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem}
+.proj h3{font-size:1.1rem;font-weight:700;margin-bottom:.5rem}
+.proj p{color:var(--muted);font-size:.875rem;flex:1;margin-bottom:1rem}
+.proj .tags{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:1rem}
+.proj .tag{font-size:.68rem;padding:.2rem .5rem;border-radius:6px;background:rgba(56,189,248,.08);color:var(--accent);border:1px solid rgba(56,189,248,.15);font-weight:500}
+.proj a{font-size:.85rem;font-weight:600;color:var(--accent);text-decoration:none}
+.proj a:hover{text-decoration:underline}
+.timeline{display:flex;flex-direction:column;gap:1rem;max-width:720px;margin:0 auto}
+.exp{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.35rem 1.5rem;display:grid;grid-template-columns:auto 1fr;gap:1rem;align-items:start}
+.exp .icon{width:42px;height:42px;border-radius:10px;background:rgba(56,189,248,.1);display:flex;align-items:center;justify-content:center;font-size:1.1rem}
+.exp h3{font-size:1rem;font-weight:700}
+.exp .org{color:var(--accent);font-size:.85rem;font-weight:500}
+.exp .when{font-size:.75rem;color:var(--muted);margin-top:.15rem}
+.exp p{color:var(--muted);font-size:.875rem;margin-top:.4rem}
+.contact-box{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:2.5rem;text-align:center;max-width:640px;margin:0 auto}
+.contact-box h2{font-size:1.6rem;font-weight:800;margin-bottom:.5rem}
+.contact-box p{color:var(--muted);margin-bottom:1.5rem}
+.contact-links{display:flex;flex-wrap:wrap;gap:.75rem;justify-content:center}
+.contact-links a{display:inline-flex;align-items:center;gap:.4rem;padding:.7rem 1.15rem;border-radius:10px;background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.2);color:var(--accent);text-decoration:none;font-size:.875rem;font-weight:600;transition:all .2s}
+.contact-links a:hover{background:var(--accent);color:#0a1220}
+footer{border-top:1px solid var(--border);padding:1.5rem 0;text-align:center;color:var(--muted);font-size:.8rem}
+@media(max-width:860px){.hero-grid{grid-template-columns:1fr;gap:2rem}.photo-card{margin:0 auto;max-width:300px}.about-grid{grid-template-columns:1fr}.nav-links{display:none}.nav-links.open{display:flex;flex-direction:column;position:absolute;top:64px;left:0;right:0;background:rgba(10,18,32,.98);padding:1rem;border-bottom:1px solid var(--border);gap:1rem}.menu-btn{display:block}}
 </style>
 </head>
 <body>
-<div class="loading" id="loading">
-<img src="https://avatars.githubusercontent.com/u/251947734?v=4&s=128" alt="Meena Vignesh M" width="72" height="72"/>
-<div class="bar"><i></i></div>
-<h1>Meena <span>Vignesh M</span></h1>
-<p>Entering lab…</p>
-</div>
-<div id="ui">
-<div class="top">
-<img src="https://avatars.githubusercontent.com/u/251947734?v=4&s=80" alt="Meena Vignesh M" width="40" height="40"/>
-<div class="logo">Meena Vignesh M<span>B.Tech Biotechnology · Lab Portfolio</span></div>
-</div>
-<div class="hint" id="hint">Click · WASD · Walk to the lab entrance</div>
-<div class="panel" id="panel">
-<button class="panel-close" id="panelClose" type="button">×</button>
-<h2 id="pTitle"></h2><div class="meta" id="pMeta"></div><div class="skills-row" id="pSkills"></div><p id="pBody"></p><div class="tags" id="pTags"></div><div id="pLinks"></div>
-</div>
-<div class="mobile-controls">
-<div class="joy">
-<button class="ctrl-btn" data-key="a" type="button">◀</button>
-<button class="ctrl-btn" data-key="s" type="button">▼</button>
-<button class="ctrl-btn" data-key="w" type="button">▲</button>
-<button class="ctrl-btn" data-key="d" type="button">▶</button>
-</div>
-<div class="btns"><button class="ctrl-btn" data-key="e" type="button" style="width:56px">E</button></div>
+<div class="grid-bg"></div>
+<div class="dots"></div>
+<nav>
+<div class="inner">
+<a class="brand" href="#">
+<img src="https://avatars.githubusercontent.com/u/251947734?v=4&s=80" alt="Meena Vignesh M" width="36" height="36"/>
+<div><strong>Meena Vignesh M</strong><small>B.Tech Biotechnology</small></div>
+</a>
+<button class="menu-btn" id="menuBtn" type="button" aria-label="Menu">☰</button>
+<div class="nav-links" id="navLinks">
+<a href="#about">About</a>
+<a href="#skills">Skills</a>
+<a href="#projects">Projects</a>
+<a href="#experience">Experience</a>
+<a href="#contact">Contact</a>
+<a class="btn btn-primary" href="https://github.com/meenavignesh-svg" target="_blank" rel="noopener">GitHub</a>
 </div>
 </div>
-<script type="importmap">{"imports":{"three":"https://unpkg.com/three@0.160.0/build/three.module.js","three/addons/":"https://unpkg.com/three@0.160.0/examples/jsm/"}}</script>
-<script type="module">
-import * as THREE from 'three';
-import { PointerLockControls } from 'three/addons/controls/PointerLockControls.js';
-const PHOTO='https://avatars.githubusercontent.com/u/251947734?v=4&s=256';
-const content={about:{title:'About · Meena Vignesh M',meta:'B.Tech Biotechnology · 3rd Sem · CGPA 7.4/10',skills:['Sethu Institute of Technology','2025–2029'],body:'Bioorganic Chemistry, Biochemistry, Microbiology, Cell Biology, Analytical Instrumentation. Focus: Bioengineering, Bioinformatics, AI for Biology.',tags:['Bioengineering','Bioinformatics','AI for Biology'],links:[{label:'GitHub',href:'https://github.com/meenavignesh-svg'},{label:'LinkedIn',href:'https://linkedin.com/in/meena-vignesh-m-310664380'}]},skills:{title:'Skills',meta:'Lab · Code · Tools',skills:['Python','Git','VS Code','AI-Assisted Dev','Bioinformatics','Biochemistry','Microbiology','Cell Biology'],body:'Wet-lab and computational workflows together.',tags:['Wet lab','Computation'],links:[{label:'GitHub',href:'https://github.com/meenavignesh-svg'}]},margots:{title:'MARGOTS',meta:'Bioinformatics · Python · AI Agents',skills:[],body:'AI-native genomic workflow platform — pipelines, QC, analysis, reports.',tags:['Python','Bioinformatics','AI'],links:[{label:'Repo',href:'https://github.com/meenavignesh-svg/margots'}]},peg:{title:'PEG Biodegradation',meta:'SIH 2026 · Marge Organics',skills:[],body:'Interactive PEG wastewater treatment demo for Smart India Hackathon.',tags:['SIH 2026','Environment'],links:[{label:'Repo',href:'https://github.com/meenavignesh-svg/PEG-BIODEGRADATION'},{label:'Demo',href:'https://meenavignesh-svg.github.io/PEG-BIODEGRADATION/'}]},aegis:{title:'Aegis Bio-Node',meta:'Bioengineering concept',skills:[],body:'Next-gen bioreactor with organ-mimetic fluid dynamics.',tags:['Bioengineering','Design'],links:[{label:'Repo',href:'https://github.com/meenavignesh-svg/AEGIS-BIO-NODE'}]},rosalind:{title:'Rosalind Suite',meta:'Algorithms · Learning',skills:[],body:'Rosalind bioinformatics problem solutions.',tags:['Bioinformatics','Python'],links:[{label:'Repo',href:'https://github.com/meenavignesh-svg/rosalind-complete-suite'}]},codealpha:{title:'CodeAlpha Biotech',meta:'Internship',skills:[],body:'CodeAlpha Biotechnology Internship work.',tags:['Internship'],links:[{label:'Repo',href:'https://github.com/meenavignesh-svg/CodeAlpha-Biotech-Internship'}]},sih:{title:'SIH Vision AI',meta:'AI · Computer Vision',skills:[],body:'Image understanding AI for SIH.',tags:['AI','Vision'],links:[{label:'Repo',href:'https://github.com/meenavignesh-svg/SIH-IMAGE-UNDERSTANDING-AI'}]},experience:{title:'Experience',meta:'Intern · Industry · ASM',skills:[],body:'CodeAlpha intern. SPS Chilling Centre trainee (June 2026). ASM Global Outreach member.',tags:['CodeAlpha','SPS','ASM'],links:[{label:'LinkedIn',href:'https://linkedin.com/in/meena-vignesh-m-310664380'}]},contact:{title:'Contact · Meena Vignesh M',meta:'Open to research internships',skills:[],body:'Tamil Nadu, India. Bioengineering, Bioinformatics, AI for Biology.',tags:['Email','WhatsApp','Phone'],links:[{label:'Email',href:'mailto:meenavignesh6789@gmail.com'},{label:'WhatsApp',href:'https://wa.me/919791361692'},{label:'Call',href:'tel:+919791361692'},{label:'GitHub',href:'https://github.com/meenavignesh-svg'},{label:'LinkedIn',href:'https://linkedin.com/in/meena-vignesh-m-310664380'}]}};
-const scene=new THREE.Scene();scene.background=new THREE.Color(0x101820);scene.fog=new THREE.Fog(0x101820,8,18);
-const camera=new THREE.PerspectiveCamera(72,innerWidth/innerHeight,0.05,30);camera.position.set(0,1.55,5.60);
-const renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance'});renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,1.75));renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.1;document.body.prepend(renderer.domElement);
-scene.add(new THREE.HemisphereLight(0xd8e8f8,0x2a3545,0.45));
-const sun=new THREE.DirectionalLight(0xfff4e8,0.7);sun.position.set(3,8,4);sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);sun.shadow.camera.near=0.5;sun.shadow.camera.far=20;sun.shadow.camera.left=sun.shadow.camera.bottom=-8;sun.shadow.camera.right=sun.shadow.camera.top=8;scene.add(sun);
-scene.add(new THREE.AmbientLight(0x607080,0.28));
-const fill=new THREE.PointLight(0x88c0ff,0.35,12);fill.position.set(-2,2.5,1);scene.add(fill);
-const W=10,D=8,H=3.0;
-const matFloor=new THREE.MeshStandardMaterial({color:0xb8c0cc,roughness:0.4,metalness:0.15});
-const matWall=new THREE.MeshStandardMaterial({color:0xe8ecf2,roughness:0.8,metalness:0});
-const matBench=new THREE.MeshStandardMaterial({color:0x8a94a0,roughness:0.35,metalness:0.55});
-const matTop=new THREE.MeshStandardMaterial({color:0x4a5560,roughness:0.22,metalness:0.7});
-const matBlack=new THREE.MeshStandardMaterial({color:0x1a1e24,roughness:0.45,metalness:0.35});
-const matSteel=new THREE.MeshStandardMaterial({color:0x9aa3ad,roughness:0.28,metalness:0.9});
-const matWhite=new THREE.MeshStandardMaterial({color:0xf0f2f5,roughness:0.5,metalness:0.05});
-const matGlass=new THREE.MeshPhysicalMaterial({color:0xb0d8ec,transparent:true,opacity:0.5,roughness:0.05,metalness:0.1,transmission:0.4,thickness:0.3});
-const matScreen=new THREE.MeshStandardMaterial({color:0x0a1828,emissive:0x1a4060,emissiveIntensity:0.55,roughness:0.2});
-const matLed=new THREE.MeshStandardMaterial({color:0x30e070,emissive:0x18a040,emissiveIntensity:1.2});
-function M(geo,mat,x,y,z){const m=new THREE.Mesh(geo,mat);m.position.set(x,y,z);m.castShadow=true;m.receiveShadow=true;return m;}
-scene.add(M(new THREE.BoxGeometry(W,0.06,D),matFloor,0,0,0));
-scene.add(M(new THREE.BoxGeometry(W,0.08,D),matWall,0,H,0));
-scene.add(M(new THREE.BoxGeometry(0.1,H,D),matWall,-W/2,H/2,0));
-scene.add(M(new THREE.BoxGeometry(0.1,H,D),matWall,W/2,H/2,0));
-scene.add(M(new THREE.BoxGeometry(W,H,0.1),matWall,0,H/2,-D/2));
-const DOOR_W=2.20, DOOR_H=2.45;
-          scene.add(M(new THREE.BoxGeometry((W-DOOR_W)/2,H,0.1),matWall,-(W+DOOR_W)/4,H/2,D/2));
-          scene.add(M(new THREE.BoxGeometry((W-DOOR_W)/2,H,0.1),matWall,(W+DOOR_W)/4,H/2,D/2));
-          scene.add(M(new THREE.BoxGeometry(DOOR_W,H-DOOR_H,0.1),matWall,0,DOOR_H+(H-DOOR_H)/2,D/2));
-
-// Real institutional laboratory entrance. The door is on the visible front wall and can be opened before entering.
-          let labDoor=null, doorOpen=false, doorTarget=0;
-          (function makeRealLabDoor(){
-            const g=new THREE.Group(); labDoor=g;
-            const frame=new THREE.MeshStandardMaterial({color:0x8b9298,roughness:0.5,metalness:0.8});
-            const leafMat=new THREE.MeshStandardMaterial({color:0xd8dbdd,roughness:0.72,metalness:0.08});
-            const dark=new THREE.MeshStandardMaterial({color:0x25292d,roughness:0.85,metalness:0.25});
-            const glass=new THREE.MeshPhysicalMaterial({color:0x9fc4d1,transparent:true,opacity:0.58,roughness:0.12,metalness:0.05,transmission:0.2,thickness:0.04});
-            const leaf=new THREE.Group();
-            leaf.position.set(-0.67,0,0);
-            leaf.add(M(new THREE.BoxGeometry(1.34,2.28,0.08),leafMat,0,1.14,0));
-            leaf.add(M(new THREE.BoxGeometry(0.78,0.68,0.035),dark,0,1.65,0.065));
-            leaf.add(M(new THREE.BoxGeometry(0.70,0.60,0.025),glass,0,1.65,0.085));
-            leaf.add(M(new THREE.BoxGeometry(1.18,0.08,0.035),frame,0,0.10,0.07));
-            leaf.add(M(new THREE.BoxGeometry(0.32,0.045,0.045),dark,0.42,1.14,0.09));
-            leaf.add(M(new THREE.CylinderGeometry(0.025,0.025,0.13,16),frame,0.55,1.14,0.09));
-            leaf.add(M(new THREE.BoxGeometry(0.34,0.07,0.06),frame,0.18,2.25,0.08));
-            g.add(leaf); g.userData.leaf=leaf;
-            g.add(M(new THREE.BoxGeometry(0.10,2.55,0.14),frame,-0.75,1.275,0));
-            g.add(M(new THREE.BoxGeometry(0.10,2.55,0.14),frame,0.75,1.275,0));
-            g.add(M(new THREE.BoxGeometry(1.50,0.10,0.14),frame,0,2.50,0));
-            const c=document.createElement('canvas'); c.width=640;c.height=150; const ctx=c.getContext('2d');
-            ctx.fillStyle='#f5f2e9';ctx.fillRect(0,0,640,150);ctx.fillStyle='#263238';ctx.font='bold 46px system-ui';ctx.textAlign='center';ctx.fillText('BIOTECHNOLOGY LAB',320,62);ctx.font='25px system-ui';ctx.fillText('AUTHORIZED PERSONNEL',320,105);
-            const tex=new THREE.CanvasTexture(c);tex.colorSpace=THREE.SRGBColorSpace;
-            const sign=new THREE.Mesh(new THREE.PlaneGeometry(1.32,0.31),new THREE.MeshBasicMaterial({map:tex}));sign.position.set(0,2.70,0.08);g.add(sign);
-            g.position.set(0,0,D/2-0.07);scene.add(g);
-          })();;
-
-[[-2,-1.5],[2,-1.5],[0,1.5]].forEach(([fx,fz])=>{scene.add(M(new THREE.BoxGeometry(1.8,0.04,0.35),matSteel,fx,H-0.04,fz));scene.add(M(new THREE.BoxGeometry(1.6,0.025,0.22),new THREE.MeshStandardMaterial({color:0xf8fbff,emissive:0xd0e4ff,emissiveIntensity:0.9}),fx,H-0.07,fz));const pl=new THREE.PointLight(0xf0f6ff,0.5,7,2);pl.position.set(fx,H-0.35,fz);scene.add(pl);});
-function bench(x,z,len,rotY=0){const g=new THREE.Group();g.add(M(new THREE.BoxGeometry(len,0.05,0.6),matTop,0,0.85,0));g.add(M(new THREE.BoxGeometry(len-0.05,0.78,0.52),matBench,0,0.39,0));g.position.set(x,0,z);g.rotation.y=rotY;scene.add(g);}
-bench(-2.2,-3.2,4.2);bench(2.2,-3.2,4.2);bench(-4.2,0,4.5,Math.PI/2);bench(4.2,0,4.5,-Math.PI/2);bench(0,3.2,5);
-new THREE.TextureLoader().load(PHOTO,(tex)=>{tex.colorSpace=THREE.SRGBColorSpace;const frame=new THREE.Group();frame.add(M(new THREE.BoxGeometry(1.15,1.15,0.04),matSteel,0,1.7,0));const pic=new THREE.Mesh(new THREE.PlaneGeometry(1.0,1.0),new THREE.MeshStandardMaterial({map:tex,roughness:0.6,metalness:0}));pic.position.set(0,1.7,0.025);frame.add(pic);frame.position.set(-2.2,0,-D/2+0.08);scene.add(frame);});
-(function makeNamePlate(){const g=new THREE.Group();g.add(M(new THREE.BoxGeometry(2.4,0.55,0.05),matSteel,0,2.2,0));g.add(M(new THREE.BoxGeometry(2.3,0.45,0.03),matBlack,0,2.2,0.03));const c=document.createElement('canvas');c.width=512;c.height=128;const ctx=c.getContext('2d');ctx.fillStyle='#0c121c';ctx.fillRect(0,0,512,128);ctx.fillStyle='#5ec8ff';ctx.font='bold 42px system-ui,sans-serif';ctx.textAlign='center';ctx.fillText('MEENA VIGNESH M',256,55);ctx.fillStyle='#94a3b8';ctx.font='24px system-ui,sans-serif';ctx.fillText('Biotechnology · Bioinformatics · AI',256,95);const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;const label=new THREE.Mesh(new THREE.PlaneGeometry(2.2,0.42),new THREE.MeshBasicMaterial({map:t}));label.position.set(0,2.2,0.05);g.add(label);g.position.set(1.2,0,-D/2+0.08);scene.add(g);})();
-const interactables=[];
-function mark(g,id,label){g.userData.stationId=id;g.userData.label=label;interactables.push(g);const ring=new THREE.Mesh(new THREE.RingGeometry(0.4,0.5,32),new THREE.MeshBasicMaterial({color:0x5ec8ff,transparent:true,opacity:0.45,side:THREE.DoubleSide}));ring.rotation.x=-Math.PI/2;ring.position.set(g.position.x,0.03,g.position.z);ring.userData.pulse=true;ring.userData.baseOpacity=0.45;scene.add(ring);}
-function makeMicroscope(x,z,id,label){const g=new THREE.Group();g.add(M(new THREE.CylinderGeometry(0.16,0.2,0.05,20),matBlack,0,0.9,0));g.add(M(new THREE.BoxGeometry(0.05,0.35,0.08),matSteel,0,1.12,-0.04));g.add(M(new THREE.BoxGeometry(0.18,0.1,0.2),matBlack,0,1.35,0.03));const eye=M(new THREE.CylinderGeometry(0.025,0.025,0.08,10),matSteel,0,1.4,0.14);eye.rotation.x=0.85;g.add(eye);g.add(M(new THREE.CylinderGeometry(0.04,0.05,0.1,12),matSteel,0,1.02,0.05));g.position.set(x,0,z);scene.add(g);mark(g,id,label);}
-function makePC(x,z,id,label,rotY=0){const g=new THREE.Group();g.add(M(new THREE.BoxGeometry(0.45,0.32,0.03),matBlack,0,1.25,0));g.add(M(new THREE.BoxGeometry(0.4,0.27,0.01),matScreen,0,1.25,0.02));g.add(M(new THREE.BoxGeometry(0.07,0.18,0.04),matSteel,0,1.0,0));g.add(M(new THREE.BoxGeometry(0.18,0.015,0.12),matBlack,0,0.9,0));g.add(M(new THREE.BoxGeometry(0.32,0.012,0.1),matBlack,0,0.88,0.22));g.position.set(x,0,z);g.rotation.y=rotY;scene.add(g);mark(g,id,label);}
-function makeFlasks(x,z,id,label){const g=new THREE.Group();g.add(M(new THREE.BoxGeometry(0.4,0.02,0.28),matWhite,0,0.88,0));const cols=[0x2b8fd9,0x2eb87a,0x9b5fd4];for(let i=0;i<3;i++){const fx=-0.1+i*0.1;g.add(M(new THREE.CylinderGeometry(0.025,0.045,0.16,14),matGlass,fx,1.0,0));g.add(M(new THREE.CylinderGeometry(0.02,0.035,0.05,10),new THREE.MeshStandardMaterial({color:cols[i],transparent:true,opacity:0.8}),fx,0.94,0));}g.position.set(x,0,z);scene.add(g);mark(g,id,label);}
-function makeInstrument(x,z,id,label){const g=new THREE.Group();g.add(M(new THREE.BoxGeometry(0.55,0.28,0.4),new THREE.MeshStandardMaterial({color:0x3a4452,roughness:0.35,metalness:0.55}),0,1.02,0));g.add(M(new THREE.BoxGeometry(0.5,0.035,0.35),matBlack,0,1.18,0));g.add(M(new THREE.BoxGeometry(0.04,0.018,0.02),matLed,0.2,1.2,0.15));g.position.set(x,0,z);scene.add(g);mark(g,id,label);}
-function makeRack(x,z,id,label){const g=new THREE.Group();g.add(M(new THREE.BoxGeometry(0.42,1.05,0.36),matSteel,0,0.55,0));for(let i=0;i<4;i++){g.add(M(new THREE.BoxGeometry(0.36,0.08,0.3),matBlack,0,0.2+i*0.2,0));g.add(M(new THREE.BoxGeometry(0.02,0.02,0.012),matLed,0.15,0.2+i*0.2,0.16));}g.position.set(x,0,z);scene.add(g);mark(g,id,label);}
-function makeBoard(x,z,id,label){const g=new THREE.Group();g.add(M(new THREE.BoxGeometry(0.95,0.7,0.03),matWhite,0,1.45,0));g.add(M(new THREE.BoxGeometry(1.02,0.76,0.025),matSteel,0,1.45,-0.02));g.position.set(x,0,z);scene.add(g);mark(g,id,label);}
-makeMicroscope(-3.2,-2.95,'about','About');
-makePC(-1.5,-2.95,'skills','Skills');
-makeRack(1.2,-2.95,'margots','MARGOTS');
-makeInstrument(3.2,-2.95,'peg','PEG Bio');
-makeFlasks(-3.95,-0.5,'aegis','Aegis');
-makePC(-3.95,1.2,'rosalind','Rosalind',Math.PI/2);
-makeInstrument(3.95,-0.5,'codealpha','CodeAlpha');
-makePC(3.95,1.2,'sih','SIH AI',-Math.PI/2);
-makeBoard(-1.5,2.95,'experience','Experience');
-makePC(1.2,2.95,'contact','Contact');
-const controls=new PointerLockControls(camera,document.body);const keys={};
-window.addEventListener('keydown',e=>{keys[e.code]=true;});window.addEventListener('keyup',e=>{keys[e.code]=false;});
-document.querySelectorAll('.ctrl-btn').forEach(btn=>{const map={w:'KeyW',a:'KeyA',s:'KeyS',d:'KeyD',e:'KeyE'};const code=map[btn.dataset.key];const on=e=>{e.preventDefault();keys[code]=true;};const off=e=>{e.preventDefault();keys[code]=false;};btn.addEventListener('touchstart',on,{passive:false});btn.addEventListener('touchend',off);btn.addEventListener('mousedown',on);btn.addEventListener('mouseup',off);btn.addEventListener('mouseleave',off);});
-renderer.domElement.addEventListener('click',()=>{if(!controls.isLocked&&!panelOpen)controls.lock();});
-const panel=document.getElementById('panel');let panelOpen=false,nearestId=null;
-          window.addEventListener('keydown',e=>{if(e.code==='KeyE' && !panelOpen){const nearDoor=Math.abs(camera.position.x)<1.35 && Math.abs(camera.position.z-D/2)<1.0;if(nearDoor){doorOpen=!doorOpen;doorTarget=doorOpen?-Math.PI/2:0;document.getElementById('hint').textContent=doorOpen?'Entrance open · Walk inside':'Walk to the entrance';}}});
-function openPanel(id){const c=content[id];if(!c)return;document.getElementById('pTitle').textContent=c.title;document.getElementById('pMeta').textContent=c.meta;document.getElementById('pBody').textContent=c.body;document.getElementById('pSkills').innerHTML=(c.skills||[]).map(s=>`<span class="skill-chip">${s}</span>`).join('');document.getElementById('pTags').innerHTML=(c.tags||[]).map(t=>`<span class="tag">${t}</span>`).join('');document.getElementById('pLinks').innerHTML=(c.links||[]).map(l=>`<a href="${l.href}" target="_blank" rel="noopener">${l.label} →</a>`).join('');panel.classList.add('open');panelOpen=true;if(controls.isLocked)controls.unlock();document.getElementById('hint').textContent='E or × to close';}
-function closePanel(){panel.classList.remove('open');panelOpen=false;document.getElementById('hint').textContent='Walk to blue rings · E';}
-document.getElementById('panelClose').addEventListener('click',closePanel);
-window.addEventListener('keydown',e=>{if(e.code==='KeyE'||e.code==='Enter'){if(panelOpen)closePanel();else if(nearestId)openPanel(nearestId);}if(e.code==='Escape')closePanel();});
-const raycaster=new THREE.Raycaster();const pointer=new THREE.Vector2();
-renderer.domElement.addEventListener('pointerdown',e=>{if(panelOpen)return;pointer.x=(e.clientX/innerWidth)*2-1;pointer.y=-(e.clientY/innerHeight)*2+1;raycaster.setFromCamera(pointer,camera);const meshes=[];interactables.forEach(g=>g.traverse(c=>{if(c.isMesh)meshes.push(c);}));const hits=raycaster.intersectObjects(meshes,false);if(hits.length){let o=hits[0].object;while(o&&!o.userData.stationId)o=o.parent;if(o?.userData?.stationId)openPanel(o.userData.stationId);}});
-const clock=new THREE.Clock();
-function animate(){requestAnimationFrame(animate);const dt=Math.min(clock.getDelta(),0.05);const t=clock.elapsedTime;if(labDoor){const nearDoor=Math.abs(camera.position.x)<1.75 && Math.abs(camera.position.z-D/2)<2.2;if(nearDoor){doorOpen=true;doorTarget=-Math.PI/2;}else if(camera.position.z<D/2-0.8){doorOpen=false;doorTarget=0;}const leaf=labDoor.userData.leaf;if(leaf)leaf.rotation.y+=(doorTarget-leaf.rotation.y)*Math.min(1,dt*8);}if(labDoor){const leaf=labDoor.userData.leaf;if(leaf)leaf.rotation.y+=(doorTarget-leaf.rotation.y)*Math.min(1,dt*7);}scene.traverse(o=>{if(o.userData.pulse)o.material.opacity=o.userData.baseOpacity+Math.sin(t*2.8)*0.12;});if(controls.isLocked&&!panelOpen){const f=new THREE.Vector3();camera.getWorldDirection(f);f.y=0;f.normalize();const r=new THREE.Vector3().crossVectors(f,new THREE.Vector3(0,1,0)).normalize();let mx=0,mz=0;if(keys['KeyW']||keys['ArrowUp']){mx+=f.x;mz+=f.z;}if(keys['KeyS']||keys['ArrowDown']){mx-=f.x;mz-=f.z;}if(keys['KeyA']||keys['ArrowLeft']){mx-=r.x;mz-=r.z;}if(keys['KeyD']||keys['ArrowRight']){mx+=r.x;mz+=r.z;}const len=Math.hypot(mx,mz)||1;camera.position.x+=(mx/len)*3.5*dt;camera.position.z+=(mz/len)*3.5*dt;camera.position.x=Math.max(-W/2+0.4,Math.min(W/2-0.4,camera.position.x));camera.position.z=Math.max(-D/2+0.4,Math.min(D/2+2.0,camera.position.z));camera.position.y=1.55;}let best=null,bestD=2.2;interactables.forEach(g=>{const d=camera.position.distanceTo(g.position);if(d<bestD){bestD=d;best=g;}});nearestId=best?best.userData.stationId:null;if(!panelOpen)document.getElementById('hint').textContent=best?`Near: ${best.userData.label} · E`:(controls.isLocked?'Walk to blue rings':'Click · WASD · E');renderer.render(scene,camera);}
-window.addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);});
-requestAnimationFrame(()=>{document.getElementById('loading').classList.add('hide');animate();});
+</nav>
+<section class="hero">
+<div class="wrap hero-grid">
+<div>
+<div class="badge">Open to Research Internships</div>
+<h1>Meena <span class="blue">Vignesh M</span></h1>
+<p class="sub">B.Tech Biotechnology · <b>3rd Semester</b></p>
+<p class="desc">Biotech student at <strong>Sethu Institute of Technology</strong> passionate about merging wet-lab science with computational biology. Building at the intersection of <strong>Bioinformatics</strong>, <strong>Bioengineering</strong>, and <strong>AI for Biology</strong>.</p>
+<div class="stats">
+<div class="stat"><div class="n">7.4</div><div class="l">CGPA / 10</div></div>
+<div class="stat-div"></div>
+<div class="stat"><div class="n">6+</div><div class="l">Projects</div></div>
+<div class="stat-div"></div>
+<div class="stat"><div class="n">2025</div><div class="l">Batch</div></div>
+</div>
+<div class="hero-btns">
+<a class="btn btn-primary" href="#projects">Explore Portfolio</a>
+<a class="btn btn-outline" href="#contact">Get In Touch</a>
+</div>
+</div>
+<div>
+<div class="photo-card">
+<img src="https://avatars.githubusercontent.com/u/251947734?v=4&s=400" alt="Meena Vignesh M" width="400" height="400"/>
+<div class="info">
+<h3>Meena Vignesh M</h3>
+<div class="role">B.Tech Biotechnology</div>
+<div class="meta">📍 Tamil Nadu, India</div>
+<div class="meta">🎓 Sethu Institute of Technology</div>
+<div class="links">
+<a href="https://github.com/meenavignesh-svg" target="_blank" rel="noopener">GitHub</a>
+<a href="https://linkedin.com/in/meena-vignesh-m-310664380" target="_blank" rel="noopener">LinkedIn</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="about">
+<div class="wrap">
+<div class="sec-head"><div class="tag">About</div><h2>Education & Focus</h2><p>Background, coursework, and what I'm building toward.</p></div>
+<div class="about-grid">
+<div class="card">
+<h3>🎓 Education</h3>
+<p><strong style="color:var(--text)">Sethu Institute of Technology</strong> · 2025 – 2029</p>
+<p style="margin-top:.4rem">B.Tech in Biotechnology · CGPA <strong style="color:var(--accent)">7.4 / 10</strong></p>
+<p style="margin-top:.75rem">Core subjects: Bioorganic Chemistry, Biochemistry, Microbiology, Cell Biology, Analytical Methods & Instrumentation.</p>
+</div>
+<div class="card">
+<h3>🎯 Focus Areas</h3>
+<ul>
+<li>Bioengineering & biological systems</li>
+<li>Bioinformatics & computational biology</li>
+<li>AI-assisted scientific workflows</li>
+<li>Practical tools bridging wet-lab and software</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="skills">
+<div class="wrap">
+<div class="sec-head"><div class="tag">Skills</div><h2>Technical Toolkit</h2><p>Wet-lab concepts and computational tools I work with.</p></div>
+<div class="skills-grid">
+<div class="skill">Python</div><div class="skill">Git & GitHub</div><div class="skill">VS Code</div><div class="skill">AI-Assisted Dev</div>
+<div class="skill">Bioinformatics</div><div class="skill">Biochemistry</div><div class="skill">Microbiology</div><div class="skill">Cell Biology</div>
+<div class="skill">Bioorganic Chemistry</div><div class="skill">Analytical Instrumentation</div><div class="skill">JSON / Prompting</div><div class="skill">Scientific Documentation</div>
+</div>
+</div>
+</section>
+<section id="projects">
+<div class="wrap">
+<div class="sec-head"><div class="tag">Projects</div><h2>Selected Work</h2><p>Technical and scientific projects across biotech and AI.</p></div>
+<div class="projects-grid">
+<article class="proj">
+<div class="ptype">Bioinformatics · AI</div><h3>MARGOTS</h3>
+<p>AI-native genomic workflow platform. Converts experimental intent and sequencing data into structured pipelines, QC, analysis, and report-ready outputs.</p>
+<div class="tags"><span class="tag">Python</span><span class="tag">Bioinformatics</span><span class="tag">AI Agents</span><span class="tag">Genomics</span></div>
+<a href="https://github.com/meenavignesh-svg/margots" target="_blank" rel="noopener">View repository →</a>
+</article>
+<article class="proj">
+<div class="ptype">SIH 2026 · Environment</div><h3>PEG Biodegradation</h3>
+<p>Interactive process demo for PEG wastewater treatment: industrial feed → biochar–hydrogel bed → bacterial consortium → treated water. Smart India Hackathon.</p>
+<div class="tags"><span class="tag">SIH 2026</span><span class="tag">Wastewater</span><span class="tag">Environmental Biotech</span></div>
+<a href="https://github.com/meenavignesh-svg/PEG-BIODEGRADATION" target="_blank" rel="noopener">Repository →</a>
+<a href="https://meenavignesh-svg.github.io/PEG-BIODEGRADATION/" target="_blank" rel="noopener" style="margin-left:.75rem">Live demo →</a>
+</article>
+<article class="proj">
+<div class="ptype">Bioengineering</div><h3>Aegis Bio-Node</h3>
+<p>Conceptual next-generation bioreactor exploring non-Euclidean geometry and organ-mimetic fluid dynamics beyond conventional stirred-tank design.</p>
+<div class="tags"><span class="tag">Bioengineering</span><span class="tag">Design</span><span class="tag">Bioreactor</span></div>
+<a href="https://github.com/meenavignesh-svg/AEGIS-BIO-NODE" target="_blank" rel="noopener">View repository →</a>
+</article>
+<article class="proj">
+<div class="ptype">Algorithms · Learning</div><h3>Rosalind Complete Suite</h3>
+<p>Structured solutions to Rosalind bioinformatics problems — sequence analysis, pattern finding, and classic computational biology exercises.</p>
+<div class="tags"><span class="tag">Python</span><span class="tag">Bioinformatics</span><span class="tag">Algorithms</span></div>
+<a href="https://github.com/meenavignesh-svg/rosalind-complete-suite" target="_blank" rel="noopener">View repository →</a>
+</article>
+<article class="proj">
+<div class="ptype">Internship</div><h3>CodeAlpha Biotech</h3>
+<p>Technical deliverables from the CodeAlpha Biotechnology Internship — engineering habits applied to biotech problems with clear documentation.</p>
+<div class="tags"><span class="tag">Internship</span><span class="tag">Biotechnology</span></div>
+<a href="https://github.com/meenavignesh-svg/CodeAlpha-Biotech-Internship" target="_blank" rel="noopener">View repository →</a>
+</article>
+<article class="proj">
+<div class="ptype">AI · Computer Vision</div><h3>SIH Image Understanding AI</h3>
+<p>Image understanding and computer-vision techniques applied to a scientific / biotechnology problem context for Smart India Hackathon.</p>
+<div class="tags"><span class="tag">AI</span><span class="tag">Vision</span><span class="tag">Python</span><span class="tag">SIH</span></div>
+<a href="https://github.com/meenavignesh-svg/SIH-IMAGE-UNDERSTANDING-AI" target="_blank" rel="noopener">View repository →</a>
+</article>
+</div>
+</div>
+</section>
+<section id="experience">
+<div class="wrap">
+<div class="sec-head"><div class="tag">Experience</div><h2>Internships & Memberships</h2><p>Practical exposure and professional community.</p></div>
+<div class="timeline">
+<div class="exp"><div class="icon">🔬</div><div>
+<h3>Biotechnology Intern</h3><div class="org">CodeAlpha</div><div class="when">Internship · Project-oriented learning</div>
+<p>Practical biotech deliverables with engineering and computational documentation habits.</p>
+</div></div>
+<div class="exp"><div class="icon">🏭</div><div>
+<h3>Industrial Trainee</h3><div class="org">SPS Chilling Centre, Dindigul</div><div class="when">June 2026</div>
+<p>Milk processing, quality assessment, and sanitation practices in an industrial dairy setting.</p>
+</div></div>
+<div class="exp"><div class="icon">🌍</div><div>
+<h3>Student Member</h3><div class="org">ASM Global Outreach · American Society for Microbiology</div><div class="when">Professional society membership</div>
+<p>Engaged with the global microbiology community as a student member.</p>
+</div></div>
+</div>
+</div>
+</section>
+<section id="contact">
+<div class="wrap">
+<div class="contact-box">
+<h2>Let's Connect</h2>
+<p>Open to research internships and collaborations in Bioengineering, Bioinformatics, and AI for Biology.</p>
+<div class="contact-links">
+<a href="mailto:meenavignesh6789@gmail.com">✉ Email</a>
+<a href="https://wa.me/919791361692" target="_blank" rel="noopener">WhatsApp</a>
+<a href="tel:+919791361692">📞 +91 97913 61692</a>
+<a href="https://github.com/meenavignesh-svg" target="_blank" rel="noopener">GitHub</a>
+<a href="https://linkedin.com/in/meena-vignesh-m-310664380" target="_blank" rel="noopener">LinkedIn</a>
+</div>
+</div>
+</div>
+</section>
+<footer><div class="wrap">© 2026 Meena Vignesh M · B.Tech Biotechnology · Sethu Institute of Technology</div></footer>
+<script>
+document.getElementById('menuBtn').addEventListener('click',()=>{document.getElementById('navLinks').classList.toggle('open');});
+document.querySelectorAll('#navLinks a').forEach(a=>a.addEventListener('click',()=>{document.getElementById('navLinks').classList.remove('open');}));
 </script>
 </body>
 </html>
